@@ -54,6 +54,22 @@ const loadPetsDetails = (pets) => {
     // console.log(pets);
     const peatsContainur = document.getElementById("catsdetails");
     peatsContainur.innerHTML='';
+
+    if(pets.length==0){
+        peatsContainur.classList.remove('grid')
+        peatsContainur.innerHTML=
+        `
+        <div class="flex flex-col justify-center items-center gap-6 bg-gray-100 text-center rounded-xl h-[650px] px-2 md:px-8 lg:px-16">
+      <img class="w-[150px] md:w-[250px]" src="images/error.webp"/>
+      <h3 class="text-2xl md:text-3xl font-bold ">No Information Available</h3>
+      <p class="text-gray-500">It is a long established fact that a reader will be distracted by the readable content of a page when looking at 
+      its layout. The point of using Lorem Ipsum is that it has a.</p>
+       </div>
+        `
+    }
+    else{
+        peatsContainur.classList.add('grid')
+    }
      
     pets.forEach ((pets) => {
     
@@ -71,7 +87,7 @@ const loadPetsDetails = (pets) => {
                    <p class=" text-[#131313B3]"> <i class="fa-solid fa-dollar-sign"></i>  price: ${pets.price}$</p>
             </div>
                   <div class=" mt-5 flex gap-8 items-center">
-                      <p class="btn btn-outline px-5 btn-sm" > <i class="fa-solid fa-thumbs-up"></i></p>
+                      <p onclick="LikeButton('${pets.image}')" class="btn btn-outline px-5 btn-sm" > <i class="fa-solid fa-thumbs-up"></i></p>
                      <button class="btn btn-outline btn-sm">Adopt</button>
                      <button class="btn btn-outline btn-sm" >Details</button>
                   
@@ -95,6 +111,25 @@ function specificPets(pets) {
     
   }
 
+
+  // Like Button Click :
+const LikeButton = ID => {
+    AddedImage(ID);
+  };
+  
+  // Added New Box Image Items :
+  const AddedImage = Item => {
+    const LikesPetsContainer = document.getElementById('like-btn');
+  
+    const CreatedBox = document.createElement('div');
+    CreatedBox.innerHTML = `
+       <div>
+        <img class="rounded-lg" src="${Item}"/>
+       </div>
+      
+      `;
+    LikesPetsContainer.appendChild(CreatedBox);
+  };
 
 
   
