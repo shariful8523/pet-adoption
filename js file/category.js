@@ -107,7 +107,7 @@ const loadPetsDetails = (pets) => {
             </div>
                   <div class=" mt-5 flex gap-8 items-center">
                       <p onclick="LikeButton('${pets.image}')" class="btn btn-outline px-5 btn-sm" > <i class="fa-solid fa-thumbs-up"></i></p>
-                     <button class="btn btn-outline btn-sm">Adopt</button>
+                     <button onclick="showAdopt()" class="btn btn-outline btn-sm">Adopt</button>
                      <button onclick="modalDetails('${pets.petId}')" class="btn btn-outline btn-sm " >Details</button>
                   
                   </div>
@@ -215,9 +215,9 @@ function ShowDetailsModal(Details){
 
   
 function showAdopt() {
-  ShowModalTwo();
+  ShowModalAdopt();
 }
-function TimeOut() {
+function EndTime() {
   let countdownNumber = 3;
   const countdownElement = document.getElementById('countdown');
 
@@ -227,17 +227,22 @@ function TimeOut() {
 
     if (countdownNumber === 0) {
       clearInterval(intervalId);
-      document.getElementById('CustomModalTwo').close();
+
+    
+
+      document.getElementById('CustomModalAdopt').close();
     }
   }, 1000);
 }
-function ShowModalTwo() {
+
+
+
+function ShowModalAdopt() {
   const ModalAdopt = document.getElementById('ModalAdopt');
   ModalAdopt.innerHTML = `
     <div class="lg:w-[460px] text-center mx-auto">
     
-      <img class="w-[80px] mx-auto mb-4" src="images/time.png"/>
-      <h1 class="text-3xl font-bold text-BtnColor my-3">Congratulations 🎉 </h1>
+      <h1 class="text-3xl font-bold text-BtnColor my-3">Congratulations ! </h1>
       <p class="text-xl font-bold my-3">You Have successfully Adopted the pet.</p>
        <h2 class="mt-6 font-bold">Please waiting just few second ! </h2>
      
@@ -245,9 +250,9 @@ function ShowModalTwo() {
        
     </div>
     `;
-  document.getElementById('CustomModalTwo').showModal();
+  document.getElementById('CustomModalAdopt').showModal();
 
-  TimeOut();
+  EndTime();
 }
 
 
