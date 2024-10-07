@@ -1,9 +1,16 @@
 // category load to fetch
 
 const loadCatagories = () => {
+      document.getElementById("spinner").classList.remove("hidden")
       fetch("https://openapi.programming-hero.com/api/peddy/categories")
       .then(res => res.json())
-      .then(data => displayCategories(data.categories))
+      .then(data => { 
+        setTimeout(() => {
+          document.getElementById("spinner").classList.add("hidden")
+          displayCategories(data.categories)
+        },2000)
+        
+      })
       .catch((error)=> console.log(error));
 }
 
@@ -18,7 +25,7 @@ const displayCategories = (data) => {
                const div = document.createElement("div");
                div .classList.add = "div";
                div.innerHTML = `
-               <button onclick="specificPets('${item.category}')" id="btn-${item.category}" class="border-2 py-4 btn-category rounded-xl px-7 text-xl font-bold flex justify-center items-center gap-5 btn h-[100px] ">
+               <button onclick="specificPets('${item.category}')" id="btn-${item.category}" class="border-2 py-2 btn-category  rounded-xl px-7 text-xl font-bold flex justify-center items-center gap-5 btn  h-[70px] ">
                <img src="${item.category_icon}"/>
                ${item.category}
                </button>
@@ -42,15 +49,27 @@ const displayCategories = (data) => {
 
 // cat and dogs  load to fetch
 
-const loadPetsData = () => {
+const loadPetsData = (item) => {
+  document.getElementById("spinner").classList.remove("hidden")
     fetch("https://openapi.programming-hero.com/api/peddy/pets")
     .then((res) => res.json())
-    .then((data) => loadPetsDetails(data.pets))
+    .then((data) => {
+      setTimeout(() => {
+        if(item){
+          const decendingItem = data.pets.sort((a,b) => b.price - a.price);
+          loadPetsDetails(decendingItem);
+          
+  
+        }
+        loadPetsDetails(data.pets);
+      },2000)
+      
+    })
     .catch((error) => console.log("Error loading pets data:", error));
 }
 
 const loadPetsDetails = (pets) => {
-
+  document.getElementById("spinner").classList.add("hidden")
     // console.log(pets);
     const peatsContainur = document.getElementById("catsdetails");
     peatsContainur.innerHTML='';
@@ -89,7 +108,7 @@ const loadPetsDetails = (pets) => {
                   <div class=" mt-5 flex gap-8 items-center">
                       <p onclick="LikeButton('${pets.image}')" class="btn btn-outline px-5 btn-sm" > <i class="fa-solid fa-thumbs-up"></i></p>
                      <button class="btn btn-outline btn-sm">Adopt</button>
-                     <button class="btn btn-outline btn-sm" >Details</button>
+                     <button onclick="modalDetails('${pets.petId}')" class="btn btn-outline btn-sm " >Details</button>
                   
                   </div>
             </div>
@@ -105,9 +124,22 @@ const loadPetsDetails = (pets) => {
 }
 
 function specificPets(pets) {
+  document.getElementById("spinner").classList.remove("hidden")
+
+  const peatsContainur = document.getElementById("catsdetails");
+    peatsContainur.innerHTML='';
+
+
+
     fetch(`https://openapi.programming-hero.com/api/peddy/category/${pets}`)
       .then(res => res.json())
-      .then(data => loadPetsDetails(data.data));
+      .then(data => [
+        setTimeout(() => {
+          loadPetsDetails(data.data);
+        },2000)
+        
+      ])
+      
     
   }
 
@@ -130,6 +162,95 @@ const LikeButton = ID => {
       `;
     LikesPetsContainer.appendChild(CreatedBox);
   };
+
+
+    const btnsort=() => {
+      const peatsContainur = document.getElementById("catsdetails");
+      peatsContainur.innerHTML='';
+
+      loadPetsData(true) 
+    }
+
+      
+
+
+      // model section
+
+     function modalDetails(pet){
+      fetch(`https://openapi.programming-hero.com/api/peddy/pet/${pet}`)
+      .then(res=>res.json())
+      .then(data=>ShowDetailsModal(data.petData))
+     }
+
+function ShowDetailsModal(Details){
+
+  const ModalContainer=document.getElementById('ModalContainer')
+  ModalContainer.innerHTML=
+  `
+  <div class="">
+    <img class="w-[500px] h-[250px]" src="${Details.image}"/>
+    <h1 class=" my-5 font-bold text-lg">${Details.pet_name} </h1>
+    <div class="grid grid-cols-2 my-4">
+      <p class=" text-[#131313B3] "> <i class="fa-brands fa-slack"></i>  Breed : ${Details.breed}</p>           
+      <p class=" text-[#131313B3]"> <i class="fa-regular fa-calendar"></i> Birth: ${Details.date_of_birth}</p>
+      <p class=" text-[#131313B3]"> <i class="fa-solid fa-mercury"></i> Gender: ${Details.gender}</p>
+      <p class=" text-[#131313B3]"> <i class="fa-solid fa-dollar-sign"></i>  price: ${Details.price}$</p>
+    </div>
+
+    <div>
+       <h1 class=" font-bold text-lg">Details Information</h1>
+      <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+           The point of using is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+    </div>
+
+  </div>
+  `
+
+  document.getElementById("my_Custom_modal").showModal()
+}
+
+
+
+// adopt section
+
+  
+function showAdopt() {
+  ShowModalTwo();
+}
+function TimeOut() {
+  let countdownNumber = 3;
+  const countdownElement = document.getElementById('countdown');
+
+  const intervalId = setInterval(() => {
+    countdownNumber--;
+    countdownElement.textContent = countdownNumber;
+
+    if (countdownNumber === 0) {
+      clearInterval(intervalId);
+      document.getElementById('CustomModalTwo').close();
+    }
+  }, 1000);
+}
+function ShowModalTwo() {
+  const ModalAdopt = document.getElementById('ModalAdopt');
+  ModalAdopt.innerHTML = `
+    <div class="lg:w-[460px] text-center mx-auto">
+    
+      <img class="w-[80px] mx-auto mb-4" src="images/time.png"/>
+      <h1 class="text-3xl font-bold text-BtnColor my-3">Congratulations 🎉 </h1>
+      <p class="text-xl font-bold my-3">You Have successfully Adopted the pet.</p>
+       <h2 class="mt-6 font-bold">Please waiting just few second ! </h2>
+     
+       <h1 class="text-2xl font-bold mt-4" id="countdown">3</h1>
+       
+    </div>
+    `;
+  document.getElementById('CustomModalTwo').showModal();
+
+  TimeOut();
+}
+
+
 
 
   

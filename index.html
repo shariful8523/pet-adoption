@@ -82,23 +82,36 @@
 
 
     <main class="w-11/12 mx-auto ">
+
+           
+
+
+
+
           <article class=" my-8">
              <section>
               <!-- catagoris section -->
 
-                   <div id="categories"  class="flex justify-center gap-5 py-5 ">   </div>
+                   <div id="categories"  class="flex justify-center gap-20 py-5   ">   </div>
 
              </section>
+                      
 
-
+                  <!-- loading -->
+              
+             <div    class=" flex justify-center items-center  ">
+              <span id="spinner"   class=" hidden loading loading-spinner text-error"></span>
+            </div>
 
 
              <section class=" flex justify-between mb-10">
                  <h1 class=" font-bold text-2xl">Best Deal For you</h1>
-                 <button class="btn bg-[#0E7A81] text-[white] ">Sort by Price</button>
+                 <button  onclick="btnsort()"    class="btn bg-[#0E7A81] text-[white] "   >Sort by Price</button>
                   
              </section>
+                 
 
+            
 
 
           </article>
@@ -106,9 +119,53 @@
           <article class="flex gap-5">
             <section id="catsdetails" class="w-3/4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></section>
 
-            <section id="like-btn" class="w-1/4 border rounded-lg h-[660px] grid grid-cols-1 lg:grid-cols-2 gap-3  overflow-auto p-3"></section>
-          </article> 
+            <section   class="w-1/4 border rounded-lg   p-3"> <div id="like-btn"  class="grid grid-cols-1 lg:grid-cols-2 gap-3 ">
 
+            </div></section>
+          </article> 
+   
+          <!-- pets details modal -->
+
+   <Section>
+ <!-- Open the modal using ID.showModal() method -->
+  <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
+  <dialog id="my_Custom_modal" class="modal">
+  <div class="modal-box">
+    <div id="ModalContainer">
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+  </dialog>
+            
+</Section>
+
+        <!-- adopts pets section -->
+        
+    <section>
+        <!-- Open the modal using ID.showModal() method -->
+  <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
+  <dialog id="adoptsModal" class="modal">
+    <div class="modal-box">
+      <div id="ModalContainer">
+  
+      </div>
+      <div class="modal-action">
+        <form method="dialog">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    </dialog>
+              
+           
+    </section>
 
 
 
@@ -117,7 +174,7 @@
     <footer class="footer bg-black text-neutral-content p-10  mt-20">
       <nav>
           <div class="flex gap-3 ">
-            <img class="w-[20px] h-[30px]" src="./images/logo.webp" alt="">
+            <img class="w-[25px] h-[30px] " src="./images/logo.webp" alt="">
             <h1 class="footer-title font-bold text-3xl mb-5">Peddy</h1>
           </div>
         <a class="link link-hover"> Location: av. Washington 165, NY CA 54003</a>
