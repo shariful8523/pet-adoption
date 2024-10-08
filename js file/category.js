@@ -1,16 +1,20 @@
 // category load to fetch
 
-const loadCatagories = () => {
+const loadCatagories = (ID) => {
       document.getElementById("spinner").classList.remove("hidden")
       fetch("https://openapi.programming-hero.com/api/peddy/categories")
       .then(res => res.json())
       .then(data => { 
-        setTimeout(() => {
+        setTimeout(() =>  {
           document.getElementById("spinner").classList.add("hidden")
-          displayCategories(data.categories)
-        },2000)
-        
+         
+        },1000)
+         
+        displayCategories(data.categories)
+       
+
       })
+      
       .catch((error)=> console.log(error));
 }
 
@@ -25,7 +29,8 @@ const displayCategories = (data) => {
                const div = document.createElement("div");
                div .classList.add = "div";
                div.innerHTML = `
-               <button onclick="specificPets('${item.category}')" id="btn-${item.category}" class="border-2 py-2 btn-category  rounded-xl px-7 text-xl font-bold flex justify-center items-center gap-5 btn  h-[70px] ">
+               <button id="Btn-${item.category}"  
+                onclick="specificPets('${item.category}')"  class=" border-2 py-2 btn-category  rounded-xl px-7 text-xl font-bold flex justify-center items-center gap-5 btn  h-[70px] RemoveButton">
                <img src="${item.category_icon}"/>
                ${item.category}
                </button>
@@ -133,17 +138,31 @@ function specificPets(pets) {
 
     fetch(`https://openapi.programming-hero.com/api/peddy/category/${pets}`)
       .then(res => res.json())
-      .then(data => [
+      .then(data => {
+
+        RemoveButton()
+
+        const ActiveButtons = document.getElementById(`Btn-${pets}`);
+        ActiveButtons.classList.add('activeColor');
+
+        
+
         setTimeout(() => {
           loadPetsDetails(data.data);
-        },2000)
+        },1000)
         
-      ])
+})
       
     
   }
 
+  function RemoveButton(){
+    const Change=document.getElementsByClassName('RemoveButton')
 
+    for(let item of Change){
+      item.classList.remove('activeColor')
+    }
+  }
   // Like Button Click :
 const LikeButton = ID => {
     AddedImage(ID);
@@ -253,6 +272,25 @@ function ShowModalAdopt() {
   document.getElementById('CustomModalAdopt').showModal();
 
   EndTime();
+}
+
+// view more btn 
+
+
+
+const viewMoreBtn = document.getElementById('view');
+
+
+viewMoreBtn.addEventListener('click', function() {
+    
+    redirectBasedOnId('more');
+});
+
+function redirectBasedOnId(identifier) {
+    if (identifier === 'more') {
+    
+        document.getElementById('more').scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 
